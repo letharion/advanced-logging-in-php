@@ -1,0 +1,2 @@
+[2014-02-25 19:23:59] Step1Logger.INFO: This is a hardcoded piece of text about @event. {"@event":"test"} []
+[2014-02-25 19:24:31] Step1Logger.INFO: This is a hardcoded piece of text about @event. {"@event":"a cool event"} []

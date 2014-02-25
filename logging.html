@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Advanced logging techniques in PHP</title>
+
+		<meta name="description" content="A presentation on various techniques to improve your PHP applications logging">
+		<meta name="author" content="Claes 'Letharion' Gyllensvärd">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>Logging in your PHP application</h3>
+					<h6>Making your logs more useful</h6>
+				</section>
+
+				<section>
+          <h2>Before we start</h2>
+          <aside class="notes">
+            Presentation builds on Monolog, availble with composer as Monolog/Monolog. I won't present details about Monolog, but feel free to ask questions about any part of it.
+          </aside>
+				</section>
+
+				<section>
+          <section>
+					<h2>Message identifiers</h2>
+					<p>
+            Have identifiers for your individual messages.
+					</p>
+
+          <aside class="notes">
+            Identifiers are useful for report building.
+          </aside>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+              $log->addInfo('This is a hardcoded piece of text.');
+					  </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+              $log->addInfo('This is a hard coded piece of text.');
+					  </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+              $log->addInfo(LogMessages::getMessage('hardcoded'));
+
+class LogMessages {
+  static $m = [
+    'hardcoded' => [
+      'message' => 'This is a hard coded piece of text.',
+      'uuid' => '783EEFAA-9E49-11E3-80F6-A1572A252E0A',
+    ]
+  ];
+
+  static function getMessage($id) {
+    return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+  }
+}
+					  </code></pre>
+          </section>
+
+          <section>
+            systemd, journal and UUIDs</br> http://0pointer.de/blog/projects/journal-submit.html
+          </section>
+				</section>
+
+				<section>
+          <section>
+					<h2>Context</h2>
+					<p>
+            Separate context from it's message.
+					</p>
+          </section>
+
+          <section>
+            <pre><code data-trim contenteditable style="code">
+              $log->addInfo('This is a hardcoded piece of text.');
+					  </code></pre>
+          </section>
+				</section>
+
+				<section>
+					<h2>Request identifiers</h2>
+					<p>
+            Make it easy to find the interesting messages.
+					</p>
+				</section>
+
+				<section>
+					<h2>Opportunistic logging</h2>
+					<p>
+            FingersCrossed logger provide debug level information at a low cost.
+					</p>
+				</section>
+
+				<section>
+					<h2>Aspect orientation</h2>
+					<p>
+            Separate the logging concern from the functions real function.
+					</p>
+				</section>
+
+				<section>
+          <section>
+					<h2>More awesome?</h2>
+					<p>
+					</p>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
