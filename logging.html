@@ -62,12 +62,12 @@
           <section>
             <pre><code data-trim contenteditable style="code">
               $log->addInfo('This is a hardcoded piece of text.');
-					  </code></pre>
+            </code></pre>
           </section>
           <section>
             <pre><code data-trim contenteditable style="code">
               $log->addInfo('This is a hard coded piece of text.');
-					  </code></pre>
+            </code></pre>
           </section>
           <section>
             <pre><code data-trim contenteditable style="code">
@@ -85,29 +85,87 @@ class LogMessages {
     return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
-					  </code></pre>
+            </code></pre>
           </section>
 
           <section>
+            <pre><code data-trim contenteditable style="code">
+(783EEFAA-9E49-11E3-80F6-A1572A252E0A) This is a hard coded piece of text. [] []
+            </code></pre>
+          </section>
+	        <section>
             systemd, journal and UUIDs</br> http://0pointer.de/blog/projects/journal-submit.html
           </section>
+
 				</section>
 
 				<section>
           <section>
 					<h2>Context</h2>
 					<p>
-            Separate context from it's message.
+            Separate the context from its message.
 					</p>
           </section>
 
           <section>
             <pre><code data-trim contenteditable style="code">
-              $log->addInfo('This is a hardcoded piece of text.');
-					  </code></pre>
+$log->addInfo(LogMessages::getMessage('event-concert'));
+$log->addInfo(LogMessages::getMessage('event-tv'));
+$log->addInfo(LogMessages::getMessage('event-radio'));
+
+class LogMessages {
+  static $m = [
+    'event-concert' => [
+      'message' => 'Event "Concert" is about to start.',
+      'uuid' => '6A85F30E-9E53-11E3-88A6-A1572A252E0A',
+    ],
+    'event-tv' => [
+      'message' => 'Event "TV" is about to start.',
+      'uuid' => '7EC4AEC8-9E53-11E3-8D41-A1572A252E0A',
+    ],
+    'event-radio' => [
+      'message' => 'Event "Radio" is about to start.',
+      'uuid' => '8592B510-9E53-11E3-BE86-A1572A252E0A',
+    ],
+  ];
+
+  static function getMessage($id) {
+    return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+$log->addInfo(LogMessages::getMessage('event'), ['@event' => 'Concert']);
+$log->addInfo(LogMessages::getMessage('event'), ['@event' => 'TV']);
+$log->addInfo(LogMessages::getMessage('event'), ['@event' => 'Radio']);
+
+class LogMessages {
+  static $m = [
+    'event' => [
+      'message' => 'Event @event is about to start.',
+      'uuid' => 'ECE7B7BA-9E53-11E3-A432-D70C28518C08',
+    ],
+  ];
+
+  static function getMessage($id) {
+    return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+Event "Concert" is about to start. [] []
+Event "TV" is about to start. [] []
+Event "Radio" is about to start. [] []
+Event @event is about to start. {"@event":"Concert"} []
+Event @event is about to start. {"@event":"TV"} []
+Event @event is about to start. {"@event":"Radio"} []
+            </code></pre>
           </section>
 				</section>
-
 				<section>
 					<h2>Request identifiers</h2>
 					<p>
