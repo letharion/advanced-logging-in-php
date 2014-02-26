@@ -167,17 +167,106 @@ Event @event is about to start. {"@event":"Radio"} []
           </section>
 				</section>
 				<section>
+          <section>
 					<h2>Request identifiers</h2>
 					<p>
             Make it easy to find the interesting messages.
 					</p>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+class LogMessages {
+  static $m = [
+    'random-message' => [
+      'message' => 'This message is output at random.',
+      'uuid' => '087BF10E-9F2A-11E3-B4AB-D6A12A252E0A',
+    ],
+  ];
+
+  static function getMessage($id) {
+    return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+  }
+}
+ 
+$request = Request::createFromGlobals();
+ 
+for(; 0 != rand(0, 2);) {
+  $log->addInfo(LogMessages::getMessage('random-message'));
+}
+
+$response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
+ 
+$response->send();
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+class LogMessages {
+  static $h = '';
+
+  static $m = [
+    'random-message' => [
+      'message' => 'This message is output at random.',
+      'uuid' => '087BF10E-9F2A-11E3-B4AB-D6A12A252E0A',
+    ],
+  ];
+
+  static function getMessage($id) {
+    return '(' . self::$h . ') (' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+  }
+}
+ 
+$request = Request::createFromGlobals();
+
+LogMessages::$h  = substr(hash('sha512', serialize($request) . microtime()), 0, 10);
+ 
+for(; 0 != rand(0, 2);) {
+  $log->addInfo(LogMessages::getMessage('random-message'));
+}
+
+$response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
+ 
+$response->send();
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+[2014-02-26 14:28:15] (b412d93281) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (b9ed69f818) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (b412d93281) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
+[2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
+            </code></pre>
+          </section>
 				</section>
 
 				<section>
-					<h2>Opportunistic logging</h2>
-					<p>
-            FingersCrossed logger provide debug level information at a low cost.
-					</p>
+          <section>
+  					<h2>Opportunistic logging</h2>
+ 	  				<p>
+              FingersCrossed logger provide debug level information at a low cost.
+			  		</p>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+            </code></pre>
+          </section>
 				</section>
 
 				<section>
@@ -185,6 +274,10 @@ Event @event is about to start. {"@event":"Radio"} []
 					<p>
             Separate the logging concern from the functions real function.
 					</p>
+          <section>
+            <pre><code data-trim contenteditable style="code">
+            </code></pre>
+          </section>
 				</section>
 
 				<section>

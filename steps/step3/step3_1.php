@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $log = new Logger('Step3Logger');
-$log->pushHandler(new StreamHandler('step3.log', Logger::INFO));
+$log->pushHandler(new StreamHandler(__DIR__ . '/step3.log', Logger::INFO));
 
 class LogMessages {
   static $m = [
