@@ -13,21 +13,32 @@ $log = new Logger('Step4Logger');
 $log->pushHandler(new StreamHandler(__DIR__ . '/step4.log', Logger::DEBUG));
 
 class LogMessages {
+  static $h = '';
+
   static $m = [
-    'random-message' => [
-      'message' => 'This message is output at random.',
-      'uuid' => '087BF10E-9F2A-11E3-B4AB-D6A12A252E0A',
+    'app-start' => [
+      'message' => 'Application starting.',
+      'uuid' => '98104AC4-9FEB-11E3-B42B-FEE227518C08',
+    ],
+    'app-exit' => [
+      'message' => 'Application exiting.',
+      'uuid' => 'AC5B6C02-9FEB-11E3-BE1E-FEE227518C08',
     ],
   ];
 
   static function getMessage($id) {
-    return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
+    return '(' . self::$h . ') (' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
- 
+
 $request = Request::createFromGlobals();
- 
+
+LogMessages::$h = substr(hash('sha512', serialize($request) . microtime()), 0, 10);
+
+$log->addDebug(LogMessages::getMessage('app-start'));
+
 $response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
- 
+
 $response->send();
- 
+
+$log->addDebug(LogMessages::getMessage('app-exit'));

@@ -42,35 +42,35 @@
 				</section>
 
 				<section>
-          <h2>Before we start</h2>
-          <aside class="notes">
+					<h2>Before we start</h2>
+					<aside class="notes">
             Presentation builds on Monolog, availble with composer as Monolog/Monolog. I won't present details about Monolog, but feel free to ask questions about any part of it.
-          </aside>
+					</aside>
 				</section>
 
 				<section>
-          <section>
+					<section>
 					<h2>Message identifiers</h2>
 					<p>
             Have identifiers for your individual messages.
 					</p>
 
-          <aside class="notes">
+					<aside class="notes">
             Identifiers are useful for report building.
-          </aside>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+					</aside>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
               $log->addInfo('This is a hardcoded piece of text.');
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
               $log->addInfo('This is a hard coded piece of text.');
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
               $log->addInfo(LogMessages::getMessage('hardcoded'));
 
 class LogMessages {
@@ -85,30 +85,30 @@ class LogMessages {
     return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
-            </code></pre>
-          </section>
+						</code></pre>
+					</section>
 
-          <section>
-            <pre><code data-trim contenteditable style="code">
+					<section>
+						<pre><code data-trim contenteditable style="code">
 (783EEFAA-9E49-11E3-80F6-A1572A252E0A) This is a hard coded piece of text. [] []
-            </code></pre>
-          </section>
-	        <section>
+						</code></pre>
+					</section>
+					<section>
             systemd, journal and UUIDs</br> http://0pointer.de/blog/projects/journal-submit.html
-          </section>
+					</section>
 
 				</section>
 
 				<section>
-          <section>
+					<section>
 					<h2>Context</h2>
 					<p>
             Separate the context from its message.
 					</p>
-          </section>
+					</section>
 
-          <section>
-            <pre><code data-trim contenteditable style="code">
+					<section>
+						<pre><code data-trim contenteditable style="code">
 $log->addInfo(LogMessages::getMessage('event-concert'));
 $log->addInfo(LogMessages::getMessage('event-tv'));
 $log->addInfo(LogMessages::getMessage('event-radio'));
@@ -133,10 +133,10 @@ class LogMessages {
     return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 $log->addInfo(LogMessages::getMessage('event'), ['@event' => 'Concert']);
 $log->addInfo(LogMessages::getMessage('event'), ['@event' => 'TV']);
 $log->addInfo(LogMessages::getMessage('event'), ['@event' => 'Radio']);
@@ -153,28 +153,28 @@ class LogMessages {
     return '(' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 Event "Concert" is about to start. [] []
 Event "TV" is about to start. [] []
 Event "Radio" is about to start. [] []
 Event @event is about to start. {"@event":"Concert"} []
 Event @event is about to start. {"@event":"TV"} []
 Event @event is about to start. {"@event":"Radio"} []
-            </code></pre>
-          </section>
+						</code></pre>
+					</section>
 				</section>
 				<section>
-          <section>
+					<section>
 					<h2>Request identifiers</h2>
 					<p>
             Make it easy to find the interesting messages.
 					</p>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 class LogMessages {
   static $m = [
     'random-message' => [
@@ -197,20 +197,20 @@ for(; 0 != rand(0, 2);) {
 $response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
  
 $response->send();
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:06] (087BF10E) This message is output at random. [] []
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 class LogMessages {
   static $h = '';
 
@@ -237,10 +237,10 @@ for(; 0 != rand(0, 2);) {
 $response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
  
 $response->send();
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
 [2014-02-26 14:28:15] (b412d93281) (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:15] (b9ed69f818) (087BF10E) This message is output at random. [] []
@@ -248,25 +248,25 @@ $response->send();
 [2014-02-26 14:28:15] (b412d93281) (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
 [2014-02-26 14:28:15] (07800e824b) (087BF10E) This message is output at random. [] []
-            </code></pre>
-          </section>
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
-          <section>
-  					<h2>Opportunistic logging</h2>
- 	  				<p>
+					<section>
+						<h2>Opportunistic logging</h2>
+ 						<p>
               FingersCrossed logger provide debug level information at a low cost.
-			  		</p>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim contenteditable style="code">
-            </code></pre>
-          </section>
+						</p>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -274,14 +274,14 @@ $response->send();
 					<p>
             Separate the logging concern from the functions real function.
 					</p>
-          <section>
-            <pre><code data-trim contenteditable style="code">
-            </code></pre>
-          </section>
+					<section>
+						<pre><code data-trim contenteditable style="code">
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
-          <section>
+					<section>
 					<h2>More awesome?</h2>
 					<p>
 					</p>

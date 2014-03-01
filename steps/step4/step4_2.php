@@ -6,11 +6,13 @@ date_default_timezone_set('UTC');
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FingersCrossedHandler;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$log = new Logger('Step4Logger');
-$log->pushHandler(new StreamHandler(__DIR__ . '/step4.log', Logger::DEBUG));
+$fxlog = new Logger('Step4FXLogger');
+$fxlog->pushHandler(new FingersCrossedHandler(new StreamHandler(__DIR__ . '/step4_2.log', Logger::DEBUG)));
 
 class LogMessages {
   static $h = '';
@@ -24,21 +26,30 @@ class LogMessages {
       'message' => 'Application exiting.',
       'uuid' => 'AC5B6C02-9FEB-11E3-BE1E-FEE227518C08',
     ],
+    'app-blew-up' => [
+      'message' => 'Application blew up! :(',
+      'uuid' => 'E4BBD7E4-A158-11E3-B01B-924574EB0A54',
+    ]
   ];
 
   static function getMessage($id) {
     return '(' . self::$h . ') (' . self::$m[$id]['uuid'] . ') ' . self::$m[$id]['message'];
   }
 }
- 
+
 $request = Request::createFromGlobals();
 
-LogMessages::$h  = substr(hash('sha512', serialize($request) . microtime()), 0, 10);
- 
-$log->addDebug(LogMessages::getMessage('app-start'));
+LogMessages::$h = substr(hash('sha512', serialize($request) . microtime()), 0, 10);
 
-$response = new Response('Hello DrupalCamp London! :D' . PHP_EOL);
- 
+$fxlog->addDebug(LogMessages::getMessage('app-start'));
+
+$input = $argv[1];
+if ($input === 'World') {
+  $fxlog->addWarning(LogMessages::getMessage('app-blew-up'));
+}
+
+$response = new Response(sprintf('Hello %s at DrupalCamp London :D', htmlspecialchars($input, ENT_QUOTES, 'UTF-8')) . PHP_EOL);
+
 $response->send();
 
-$log->addDebug(LogMessages::getMessage('app-exit'));
+$fxlog->addDebug(LogMessages::getMessage('app-exit'));
