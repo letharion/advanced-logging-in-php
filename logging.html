@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Advanced logging techniques in PHP</title>
+		<title>Logs as data in PHP</title>
 
 		<meta name="description" content="A presentation on various techniques to improve your PHP applications logging">
 		<meta name="author" content="Claes 'Letharion' Gyllensvärd">
@@ -39,20 +39,23 @@
 				<section>
 					<h3>Logging in your PHP application</h3>
 					<h6>Making your logs more useful</h6>
+					<h6>Or "Logs as data"</h6>
 				</section>
 
 				<section>
-					<h2>Before we start</h2>
+					<h2>Introduction</h2>
 					<aside class="notes">
             Presentation builds on Monolog, availble with composer as Monolog/Monolog. I won't present details about Monolog, but feel free to ask questions about any part of it.
+            Background: Economist. Lack of data. Who had what role yesterday?
+            Logs as "Events".
 					</aside>
 				</section>
 
 				<section>
 					<section>
-					<h2>Message identifiers</h2>
+					<h2>Event identifiers</h2>
 					<p>
-            Have identifiers for your individual messages.
+            Have identifiers for your individual events.
 					</p>
 
 					<aside class="notes">
@@ -62,11 +65,6 @@
 					<section>
 						<pre><code data-trim contenteditable style="code">
               $log->addInfo('This is a hardcoded piece of text.');
-						</code></pre>
-					</section>
-					<section>
-						<pre><code data-trim contenteditable style="code">
-              $log->addInfo('This is a hard coded piece of text.');
 						</code></pre>
 					</section>
 					<section>

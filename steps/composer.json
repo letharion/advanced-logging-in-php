@@ -1,7 +1,7 @@
 {
     "require": {
-        "monolog/monolog": "1.7.*",
-        "symfony/http-foundation": "2.4.*",
-        "lisachenko/go-aop-php": "0.4.*"
+        "letharion/opportunistic-logger": "dev-master",
+        "symfony/http-foundation": "2.5.*",
+        "lisachenko/go-aop-php": "0.5.*"
     }
 }
